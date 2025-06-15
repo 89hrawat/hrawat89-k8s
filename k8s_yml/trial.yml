@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: trial-pod-alp1
+spec:
+  hostname: alpine-trial
+  containers:
+    - name: alpine-trial
+      image: alpine:latest

@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+  labels:
+    env: test
+    end: frount-end
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      imagePullPolicy: IfNotPresent
+      resources: 
+        limits:
+          cpu: 1000m
+          memory: 1000Mi
+        requests:
+          cpu: 500m
+          memory: 250Mi

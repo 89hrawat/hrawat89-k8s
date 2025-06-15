@@ -1,0 +1,21 @@
+---
+apiVersion: v1 
+kind: Pod
+metadata: 
+  name: init-contaner
+spec:
+  restartPolicy: OnFailure
+  initContainers:
+    - name: initcontaner
+      image: alpine
+      command: [ "sleep", "10s"]
+  containers: 
+    - name: nginx
+      image: nginx:latest
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 5000Mi
+        requests:
+          cpu: 500m
+          memory: 2500Mi

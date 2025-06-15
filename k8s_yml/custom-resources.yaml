@@ -1,0 +1,29 @@
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  # Configures Calico networking.
+  cni:
+    type: Calico
+  # Note: The ipPools section cannot be modified post-install.
+  ipPools:
+  - blockSize: 26
+    cidr: 10.42.0.0/16
+    encapsulation: VXLANCrossSubnet
+    natOutgoing: true
+    nodeSelector: all()
+  - blockSize: 122
+    cidr: 2001::/64
+    encapsulation: None
+    natOutgoing: true
+    nodeSelector: all()
+---
+apiVersion: projectcalico.org/v3
+kind: BGPConfiguration
+metadata:
+  name: default
+spec:
+  logSeverityScreen: Info
+  nodeToNodeMeshEnabled: true
+  asNum: 64512 

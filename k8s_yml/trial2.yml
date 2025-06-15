@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: trial2-alpine
+spec:
+  hostname: alpine-trial2
+  containers:
+    - name: alpine-trial2
+      image: alpine:latest
+      command: ["sleep", "1d"]

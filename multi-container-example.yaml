@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-container-example
+  labels:
+    app: multi-container-example
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+  - name: redis
+    image: redis
+    ports:
+    - containerPort: 6379
+  - name: busybox-fail
+    image: busybox
+    command: ["/bin/sh", "-c", "sleep 5; exit 1"]  # This container will run for 5 seconds then fail 

@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-app
+  labels: 
+    app: nginx-server
+spec:
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: nginx-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template: 
+    metadata: 
+      labels:
+        app: nginx-server
+    spec:
+      containers: 
+        - name: nginx-contaner
+          image: nginx:1.19.0
+          imagePullPolicy: IfNotPresent
+ #         restartPolicy: Always
+          ports:
+            - containerPort: 80 
+              protocol: TCP
+          resources:
+            limits: 
+              cpu: 300m
+              memory: 500Mi
+             

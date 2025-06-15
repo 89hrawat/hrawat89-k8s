@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-app-rs
+  namespace: default
+  labels:
+    Env: dev
+    type: FrontEnd
+spec:
+  replicas: 3
+  selector:
+    matchLabels:   
+      app: nginx-web
+  template:
+    metadata:
+      labels: 
+        app: nginx-web
+    spec:
+      containers:
+         - name: nginx-web1
+           image: nginx
+           imagePullPolicy: IfNotPresent
+           ports:
+             - containerPort: 22
+               protocol: TCP
+           resources:
+             limits: 
+               cpu: 1000m
+               memory: 1000Mi
+             requests: 
+                cpu: 500m
+                memory: 500Mi   

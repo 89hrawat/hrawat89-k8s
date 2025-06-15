@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appserver-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      Env: qat
+      type: apache-server
+  template:
+    metadata: 
+      labels: 
+        Env: qat
+        type: apache-server
+    spec: 
+       resources: 
+         limits: 
+           cpu: 500m
+           memory: 500Mi
+         requests:
+           cpu: 300m
+           memory: 300Mi
+       containers:
+         - name: http-con
+           image: httpd
+

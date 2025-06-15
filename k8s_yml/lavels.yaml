@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lavels-pod
+  labels: 
+     env: demo
+     type: Frontend
+spec:
+  containers:
+    - name: avels-pod
+      image: busybox
+      command: ["watch", "date"]
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 22
+          protocol: TCP
+      resources:
+        limits: 
+          cpu: 1000m
+          memory: 1000Mi
+        requests: 
+           cpu: 500m
+           memory: 500Mi
+  restartPolicy: OnFailure
+  hostname: demo-test
+  initContainers: 
+    - name: init-container
+      image: alpine
+      args: ["sleep", "10s"]
