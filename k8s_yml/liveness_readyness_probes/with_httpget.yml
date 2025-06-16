@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-liveness-porbe
+  deletionGracePeriodSeconds : 40
+  labels:
+    app:  nginx    ##Allows containers time to shut down gracefully.
+spec:
+  progressDeadlineSeconds:  600
+  replicas: 2
+  selector: 
+    matchLabels: 
+      app: nginx
+  strategy: 
+    rollingUpdate: 
+      maxSurge: 25%
+      maxUnavailable:  1
+    type: RollingUpdate
+  revisionHistoryLimit: 10 
+  template: 
+    metadata:
+       labels:
+         app:  nginx
+    spec:
+      containers: 
+        - name: nginx
+          image: nginx
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet: 
+              path: /
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 15   # Number of seconds after the container has started before liveness probes are initiated
+            periodSeconds: 10         # How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1
+            successThreshold: 1       # Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1
+            timeoutSeconds: 5         # Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1
+            failureThreshold: 3    #Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+          readinessProbe: 
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            failureThreshold: 3 
+          ports: 
+            - containerPort:  80  
