@@ -1,0 +1,40 @@
+https://github.com/containerd/cri/blob/v1.11.1/docs/architecture.md       (Containerd documentaion)
+https://github.com/vijay2181/k8s-500-prod-issues/blob/main/README.md       (K8s error and problem)
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#enable-shell-autocompletion   autocompletion
+https://github.com/kodekloudhub/certified-kubernetes-administrator-course all document of k8s
+https://kubernetes.io/pt-br/docs/reference/kubectl/cheatsheet/ cheatsheet for all command used in kubernites
+https://kubernetes.io/blog/
+https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+
+https://www.youtube.com/watch?v=y_vy9NVeCzo&list=PL5aURjJ6mdUedh8rPBXJ5w_ogdD9PM0D7&index=1&ab_channel=CloudWithRaj k8s video
+https://www.youtube.com/watch?v=B6FsWNUnRo0&list=PLSAko72nKb8QWsfPpBlsw-kOdMBD7sra-&index=1&ab_channel=TheLearningChannel CNI calico
+
+
+https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ for libe login prectice
+
+https://kodekloud.com/public-playgrounds/multi-node-k8s-1-33/	
+https://www.youtube.com/watch?v=r3QWVLeA5qM&list=PLmPit9IIdzwRjqD-l_sZBDdPlcSfKqpAt   youtube url IMP.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[[ `hostname` =~ -([0-9]+)$]] exit 1
+
+
+
+
+
+---------------------------------------->ELK<----------------------------------------------------------------
+https://www.youtube.com/watch?v=nsJar753ROc&list=PLTgwj-KL1pO2I0EQu8lDbhoH1CpLIHg9d&ab_channel=Techster
+ttps://www.youtube.com/@EngineeringDigest/playlists
+https://drive.google.com/drive/u/0/folders/1c-RKG-deLVll_DNXtg-yuNZWebHpxAzX   rajesh devops coures documentation 

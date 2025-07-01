@@ -11,7 +11,7 @@ spec:
   selector: 
     app: nginx-multiport
   ports:
-    - name: nignx-lb
+    - name: nignx-lb   
       protocol: TCP
       port: 8080
       targetPort: 80

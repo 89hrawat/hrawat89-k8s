@@ -42,6 +42,7 @@ spec:
       labels:
         app: nginx-app
         env: test
+        tier: FrountEnd
     spec:
       containers:
        - name: nginx
