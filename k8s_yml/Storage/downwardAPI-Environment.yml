@@ -37,4 +37,12 @@ spec:
       - name: POD_LABELS
         valueFrom:
           fieldRef:
-            fieldPath: metadata.labels['key']
+            fieldPath: metadata.labels['key']'
+    resources:
+      limits:
+        cpu: "100m"
+        memory: "128Mi"
+      requests:
+        cpu: "50m"
+        memory: "64Mi"
+        
