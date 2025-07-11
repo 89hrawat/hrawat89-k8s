@@ -20,11 +20,11 @@ spec:
       image: nginx:latest
       resources:
         limits:
-          cpu: 1000m
-          memory: 5000Mi
+          cpu: "1000m"
+          memory: "5000Mi"
         requests:
-          cpu: 500m
-          memory: 2500Mi
+          cpu: "500m"
+          memory: "2500Mi"
     - name: sidecar
       image: alpine
       args:

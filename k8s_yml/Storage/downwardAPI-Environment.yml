@@ -1,0 +1,40 @@
+---
+apiVersion: v1
+kind: Pod 
+metadata:
+  name: downwardapi
+  labels:
+    app.kubernetes.io/name: downwardapi
+spec:
+  containers:
+  - name: test-downwardapi1
+    image: busybox
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - "env && sleep 3600"  # containar will print all enviorment variable and then sleep 3600 sec.
+    env:
+      - name: POD_NAME  # to print the pod name 
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+      # to print the NAMESPACE name in env
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+      # to print node name by usning metadata information. it will be show as a form of env POD_NODE_NAME
+      - name: POD_NODE_NAME
+        valueFrom:
+          fieldRef:
+             fieldPath: spec.nodeName
+      # To print POD IP
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      # print labels 
+      - name: POD_LABELS
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels['key']

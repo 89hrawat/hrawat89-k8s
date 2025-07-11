@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: namual-pod 
+  labels:
+    type: manual
+spec:
+  nodeName: node-1
+  containers:
+    - name: nginx-containers
+      image: nginx

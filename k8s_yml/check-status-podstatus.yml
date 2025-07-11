@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: faild-container
+  labels:
+    type: container-status 
+spec:
+  containers: 
+    - name: test-1
+      image: nginx
+      command: ["sh","-c"]
+      args:
+        - sleep 1d
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort:  80
+    - name: supporter
+      image: imagenotfound
+          
