@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: downwardapi
+  labels:
+    app.kubernetes.io/name: downwardapi
+    app.kubernetes.io/type: storage
+  annotations:
+    description: "This pod demonstrates the use of Downward API to expose pod metadata as environment variables by usning volumes"
+  deletionGracePeriodSeconds: 30
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: storage
+                operator: In
+                values: 
+                  - ssd 
+                  - hdd
+  resources:
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+  restartPolicy: Always
+  tolerations:
+    - key: storage
+      operator: Equal
+      value: ssd
+      effect: NoSchedule                    
+  containers:
+  - name: test-downwardapi2
+    image: busybox
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "cat /etc/podinfo/* && sleep 3600"
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+      - name: downwardapi
+        mountPath: /etc/podinfo
+        readOnly: true
+  volumes:
+    - name: downwardapi
+      downwardAPI:
+        items:
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels
+          - path: "annotations"
+            fieldRef:
+              fieldPath: metadata.annotations
+          - path: "name"
+            fieldRef:
+              fieldPath: metadata.name
+          - path: "namespace"
+            fieldRef:
+              fieldPath: metadata.namespace
+        
+          

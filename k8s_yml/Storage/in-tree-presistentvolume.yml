@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Pod 
+metadata:
+  name: test-pd-in-tree
+  labels:
+    app: test-pd-in-tree
+    env: test
+spec:
+  containers:
+    - name: test-container
+      image: busybox
+      command: ["/bin/sh", "-c", "sleep 3600"]
+      volumeMounts:
+        - name: in-tree-pv-volume
+          mountPath: /data
+  volumes:
+    - name: in-tree-pv-volume
+      

@@ -30,4 +30,21 @@ spec:
             limits: 
               cpu: 300m
               memory: 500Mi
-             
+            requests:
+              cpu: 100m
+              memory: 200Mi 
+          volumeMounts:
+            - name: nginx-storage
+              mountPath: /usr/share/nginx/html
+            - name: nginx-config
+              mountPath: /data/nginx
+              readOnly: true 
+      volumes:
+        - name: nginx-storage
+          persistentVolumeClaim:
+            claimName: nfs-dynamic-pvc
+        - name: nginx-config
+          persistentVolumeClaim:    
+            claimName: nginx-config-pvc    
+      restartPolicy: Always
+  

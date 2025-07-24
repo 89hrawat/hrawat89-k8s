@@ -1,0 +1,21 @@
+---
+apiVsersion: v1
+kind: PersistentVolume
+metadata:
+  name: in-tree-pv
+  labels:
+    app: in-tree-pv
+  namespace: default
+spec:
+  capacity: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  volumeMode: Filesystem  
+  local:
+    path: /mnt/disks/ssd1
+    fsType: ext4
+  
+
+
