@@ -28,7 +28,7 @@ https://www.youtube.com/watch?v=r3QWVLeA5qM&list=PLmPit9IIdzwRjqD-l_sZBDdPlcSfKq
 
 
 
-[[ `hostname` =~ -([0-9]+)$]] exit 1
+
 
 
 
