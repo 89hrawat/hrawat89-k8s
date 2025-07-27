@@ -1,0 +1,92 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-clusterip-service
+  namespace: default
+  labels: 
+    type: nginx-clusterip
+spec:
+  selector: 
+    app: nginx-clusterip
+  ports:
+    - name: nignx-lb   
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment-multiport   ### name of the deployment 
+  labels:
+    app: nginx-clusterip           ## labels of deployment
+    env: test
+  namespace: default                ##  default namesapce
+spec:
+  minReadySeconds: 15                ### minimum no of secound for  witch a newly created pod should be ready without any container crashing. default is 0. 
+  replicas: 3                  
+  revisionHistoryLimit: 10           #### no of old repliaset to retain for rolling back. default value is 10.       
+  selector: 
+    matchLabels:                                ## equality based operators  like == and !=,  other one set based operators like in, notin 
+      app: nginx-clusterip
+  strategy:                           #### deployment strategy to used to replace existing pod to newly ones.
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate               ### stratagy type is rollingUpdate and Redreate.  
+  template: 
+    metadata:
+      labels:
+        app: nginx-clusterip
+        env: test
+    spec:
+      containers:
+       - name: nginx
+         image: nginx
+         env: 
+           - name: POD_IP
+             valueFrom:
+               fieldRef:
+                 fieldPath: status.podIP
+           - name: APP
+             valueFrom:
+               configMapKeyRef:
+                 name: frontend-cm     ### name of the config map file.
+                 key: APP
+           - name: ENVIRONMENT
+             valueFrom:
+               configMapKeyRef:
+                 name: frontend-cm
+                 key: ENVIRONMENT              
+         command: ["/bin/sh", "-c"]
+         args:
+           - | 
+             nginx -g 'daemon off;'
+         imagePullPolicy: IfNotPresent
+         ports:
+           - containerPort: 80
+             protocol: TCP 
+         resources: 
+           limits:
+             cpu: 300m
+             memory: 400Mi
+           requests:
+             cpu: 100m
+             memory: 200Mi
+         volumeMounts:
+           - name: html-volume         ## name of the volume which is mount inside the container.
+             mountPath: /usr/share/nginx/html    ### mount path of volume inside the container.
+             readOnly: true    ## make volume read-only mode.
+      volumes: 
+        - name: html-volume
+          configMap:
+            name: frontend-cm
+   #         items:
+    #          - key: index.html
+     #           path: index.html       
+
+      

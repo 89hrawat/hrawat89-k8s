@@ -1,0 +1,42 @@
+--- 
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test-cronjob
+  namespace: default
+  labels:
+    app: test-cronjob
+    tier: backend
+    version: v1
+  annotations:
+    cronjob.kubernetes.io/suspend: "false"
+    cronjob.kubernetes.io/parallelism: "3"
+    cronjob.kubernetes.io/completions: "10"
+    cronjob.kubernetes.io/completion-mode: "Indexed"
+    cronjob.kubernetes.io/backoff-limit-per-index: "1"
+    cronjob.kubernetes.io/max-failed-indexes: "10"
+spec:
+  schedule:  "*/5 * * * *" ##Every 5 minutes ------> minute hour day month day-of-week
+  jobTemplate:
+    metadata: 
+      labels:
+        app: test-cronjob
+        tier: backend
+        version: v1
+    spec:
+      completions: 10
+      parallelism: 3
+      completionMode: Indexed  # required for the feature
+      backoffLimitPerIndex: 1  # maximal number of failures per index
+      maxFailedIndexes: 10      # maximal number of failed indexes before terminating the Job execution
+      backoffLimit: 4 # maximum number of retries before marking the job as failed
+      ttlSecondsAfterFinished: 60 # time to live for finished jobs
+      template:
+        spec:
+          containers:
+          - name: example
+            image: busybox
+            command: ["/bin/sh", "-c", "echo Hello from the CronJob! && sleep 30"]
+          restartPolicy: Never # required for the feature
+          terminationGracePeriodSeconds: 30 # time to wait before forcefully terminating the job
+        

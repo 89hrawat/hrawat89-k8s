@@ -1,0 +1,33 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: example-job
+  namespace: default
+  deletionGracePeriodSeconds: 30
+  labels:
+    app: example-job
+spec:
+  ttlSecondsAfterFinished: 60
+  backoffLimit: 4
+  completions: 2
+  parallelism: 2
+  template:
+    metadata:
+      labels:
+        app: example-job
+    spec:
+      containers:
+        - name: job-container
+          image: busybox
+          command: ["sh", "-c", "echo Hello Kubernetes! && sleep 30"]
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+            limits:
+              cpu: 300m
+              memory: 400Mi
+      restartPolicy: Never
+      nodeSelector:
+        kubernetes.io/os: linux
