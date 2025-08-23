@@ -1,5 +1,118 @@
 ---
-apiVsersion:
-kind:
+apiVsersion: rbac.authorization.k8s.io/v1
+kind: Role
 metadata:
-spec:
+  name: devops-role
+  namespace: devops
+rules:
+  - apiGroups: [""] ## this is for core API group
+    resources: ["pods", "services", "deployments"]
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"]
+  
+  - apiGroups: ["apps"] ## this is for apps API group also know as named apis groups  
+    resources: ["statefulsets", "daemonsets"] # name of the resource which belongs to apps APIs  group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"]  # what type of action you can perform on the resource.
+  
+  - apiGroups: ["batch"] ## this is for batch API group
+    resources: ["jobs", "cronjobs"] # name of the resource which belongs to batch APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.  
+
+  - apiGroups: ["extensions"] ## this is for extensions API group
+    resources: ["ingresses"] # name of the resource which belongs to extensions APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource. 
+
+  - apiGroups: ["rbac.authorization.k8s.io"] ## this is for RBAC API group
+    resources: ["roles", "rolebindings"] # name of the resource which belongs to RBAC APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["networking.k8s.io"] ## this is for networking API group
+    resources: ["networkpolicies"] # name of the resource which belongs to networking APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["storage.k8s.io"] ## this is for storage API group
+    resources: ["persistentvolumeclaims", "storageclasses"] # name of the resource which belongs to storage APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["admissionregistration.k8s.io"] ## this is for admissionregistration API group  
+    resources: ["validatingwebhookconfigurations", "mutatingwebhookconfigurations"] # name of the resource which belongs to admissionregistration APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.  
+
+  - apiGroups: ["apiextensions.k8s.io"] ## this is for apiextensions API group  
+    resources: ["customresourcedefinitions"] # name of the resource which belongs to apiextensions APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.  
+
+  - apiGroups: ["policy"] ## this is for policy API group
+    resources: ["poddisruptionbudgets"] # name of the resource which belongs to policy APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.  
+
+  - apiGroups: ["coordination.k8s.io"] ## this is for coordination API group
+    resources: ["leases"] # name of the resource which belongs to coordination APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["autoscaling"] ## this is for autoscaling API group
+    resources: ["horizontalpodautoscalers"] # name of the resource which belongs to autoscaling APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["certificates.k8s.io"] ## this is for certificates API group
+    resources: ["certificatesigningrequests"] # name of the resource which belongs to certificates APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["events.k8s.io"] ## this is for events API group
+    resources: ["events"] # name of the resource which belongs to events APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["metrics.k8s.io"] ## this is for metrics API group
+    resources: ["pods", "nodes"] # name of the resource which belongs to metrics APIs group
+    verbs: ["get","list", "watch"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["authentication.k8s.io"] ## this is for authentication API group
+    resources: ["tokenreviews"] # name of the resource which belongs to authentication APIs group
+    verbs: ["create"] # what type of action you can perform on the resource.  
+
+  - apiGroups: ["authorization.k8s.io"] ## this is for authorization API group
+    resources: ["subjectaccessreviews", "selfsubjectaccessreviews", "selfsubjectrulesreviews"] # name of the resource which belongs to authorization APIs group
+    verbs: ["create"] # what type of action you can perform on the resource. 
+
+  - apiGroups: ["storage.k8s.io"] ## this is for storage API group
+    resources: ["volumeattachments"] # name of the resource which belongs to storage APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["k8s.io"] ## this is for k8s API group
+    resources: ["configmaps"] # name of the resource which belongs to k8s APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["scheduling.k8s.io"] ## this is for scheduling API group  
+    resources: ["priorityclasses"] # name of the resource which belongs to scheduling APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+
+  - apiGroups: ["k8s.io"] ## this is for k8s API group  
+    resources: ["secrets"] # name of the resource which belongs to k8s APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+  
+  - apiGroups: ["k8s.io"] ## this is for k8s API group
+    resources: ["serviceaccounts"] # name of the resource which belongs to k8s APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+  
+  - apiGroups: ["k8s.io"] ## this is for k8s API group
+    resources: ["namespaces"] # name of the resource which belongs to k8s APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+  
+  - apiGroups: ["k8s.io"] ## this is for k8s API group
+    resources: ["persistentvolumes"] # name of the resource which belongs to k8s APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.  
+  
+  - apiGroups: ["k8s.io"] ## this is for k8s API group
+    resources: ["persistentvolumeclaims"] # name of the resource which belongs to k8s APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.  
+  
+  - apiGroups: ["k8s.io"] ## this is for k8s API group
+    resources: ["configmaps"] # name of the resource which belongs to k8s APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.
+  
+  - apiGroups: ["k8s.io"] ## this is for k8s API group
+    resources: ["endpoints"] # name of the resource which belongs to k8s APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.  
+
+  - apiGroups: ["k8s.io"] ## this is for k8s API group
+    resources: ["events"] # name of the resource which belongs to k8s APIs group
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"] # what type of action you can perform on the resource.  

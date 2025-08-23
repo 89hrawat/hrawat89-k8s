@@ -1,0 +1,24 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: 
+  name: clsuser-clusterrole
+rules:  
+  - apiGroups: [""]
+    resources: ["pods", "services", "nodes"]
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    resourceNames: ["frontend-cm", "example-configmap"] # this is an examle of how to limit access to specific configmaps
+    verbs: ["get","list", "watch", "update"]  
+  - apiGroups: ["apps"]
+    resources: ["statefulsets", "daemonsets", "deployments"]
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"]
+  - apiGroups: ["batch"]  
+    resources: ["jobs", "cronjobs"]
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"]
+   # Non-Resource URLs access (API server endpoints)
+   #there are some non-resource URLs that you might want to allow access to, such as health checks or version info.
+   # no need to specify apiGroups for non-resource URLs.
+  - nonResourceURLs: ["/healthz", "/version"]   # ✅ API server health + version
+    verbs: ["get"]

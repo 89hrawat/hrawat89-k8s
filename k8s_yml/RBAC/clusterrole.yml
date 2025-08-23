@@ -1,0 +1,15 @@
+---
+apiVsersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: 
+  name: devops-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services"]
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["statefulsets", "daemonsets", "deployments"]
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"]
+  - apiGroups: ["batch"]
+    resources: ["jobs", "cronjobs"]
+    verbs: ["get","list", "watch", "update", "patch", "create", "delete"]

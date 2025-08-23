@@ -58,9 +58,83 @@ EOF
   $ kubectl describe csr <csr-name>
 10. Extract Signed Certificate
   kubectl get csr devops-csr -o jsonpath='{.status.certificate}' | base64 --decode > devops.crt
+################
+11 check who you are
+ # kubectl auth whoami
+12  to check if you have access to a particular resource
+kubectl auth can-i create <name  of the resource> --as <name of the user>
+kubectl  auth can-i create pod --as devops
+
+#################	flow  digram ###############
 
 
-	
++-------------------------+
+|      Kubernetes RBAC    |
+|  (apiGroup: rbac.*)     |
++-------------------------+
+          |
+          | (defines access rules)
+          v
++-------------------------+      +------------------------+
+|   Role / ClusterRole    | ---> |   Resources in other   |
+| (rbac.authorization.*)  |      |   API groups           |
++-------------------------+      +------------------------+
+          ^
+          | (binding user/group to Role)
+          |
++-------------------------+
+| RoleBinding / ClustRB   |
+| (rbac.authorization.*)  |
++-------------------------+
+          ^
+          |
++-------------------------+
+| Subjects (User, Group,  |
+| ServiceAccount)         |
++-------------------------+
+          ^            
+          |
++-------------------------+
+| roleRef                 |
+|  apiGroup: rbac         | 
+|  kind: Role             | 
+|  name: devops-role       |
++-------------------------+           
+##############################
+
+###############RoleBinding in devops namespace but subject in another namespace ##### it only happed in servieAccount 
+metadata:
+  namespace: devops
+subjects:
+  - kind: ServiceAccount
+    name: ci-runner
+    namespace: cicd
+➡ This means: the ServiceAccount ci-runner in cicd namespace gets access to resources in the devops namespace.
+
+✅ Summary
+
+RoleBinding.metadata.namespace → defines where the permissions apply.
+
+subjects[].namespace (for ServiceAccounts only) → defines which exact ServiceAccount identity gets those permissions.
+
+That’s why it’s mandatory for ServiceAccounts but not for Users/Groups (since they’re cluster-wide).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
