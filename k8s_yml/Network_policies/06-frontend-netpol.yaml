@@ -19,6 +19,14 @@ spec:
       ports:
         - protocol: TCP
           port: 80                   # Allow HTTP traffic on port 80
+    - from:
+        - podSelector:
+            matchLabels:
+              app: app1
+              role: backend          # Allow traffic from backend pods
+      ports:
+        - protocol: TCP
+          port: 80  
   egress:
     - to:
         - podSelector:
