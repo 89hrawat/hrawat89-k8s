@@ -2,28 +2,24 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: security-context-demo1
+  name: runasreadonly
   namespace: default
 spec:
   securityContext:
     runAsUser: 1001
     runAsGroup: 3001
     fsGroup: 2001
-    supplementalGroups: [ 5000]
+ #   supplementalGroups: [ 5000]
   containers:
-    - name: sec-ctx-demo1
-      image: ubuntu:latest
+    - name: runasreadonly
+      image: busybox:latest
       command: ["sh", "-c", "sleep 1h"]
       securityContext:
         allowPrivilegeEscalation: false
-       # readOnlyRootFilesystem: true
-       # runAsGroup: 2000
-       # runAsNonRoot: true
-      #  runAsUser: 1000
+        readOnlyRootFilesystem: true 
       volumeMounts:
         - name: sec-ctx-vol1 
           mountPath: /data 
   volumes:
     - name: sec-ctx-vol1
       emptyDir: {}
-      

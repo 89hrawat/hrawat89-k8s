@@ -1,0 +1,78 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-statful-headless
+  namespace: default
+  labels: 
+    app: nginx
+   ## kubernetes.io/change-cause: "initial release (v1.0) with nginx 1.25"    
+spec:
+  clusterIP: None
+  selector: 
+    app: nginx
+  ports:
+    - name: web
+      protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web1
+  namespace: default
+  annotations:
+   kubernetes.io/change-cause: "initial release (v1.0) with nginx 1.25"
+spec:
+  serviceName: "nginx-statful-headless" 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      terminationGracePeriodSeconds: 10
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+           - labelSelector:
+                matchLabels:
+                  app: nginx
+             topologyKey: "kubernetes.io/hostname"
+      volumes:
+        - name: www
+          emptyDir: {}
+      initContainers:
+        - name: init-web-content
+          image: busybox:1.36
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "<h1>Hello from Pod $(hostname)</h1>" > /work-dir/index.html
+          volumeMounts:
+            - name: www
+              mountPath: /work-dir       
+      containers:
+        - name: nginx
+          image: nginx:1.25
+          ports:
+            - containerPort: 80
+              name: web
+          volumeMounts:
+            - name: www
+              mountPath: /usr/share/nginx/html      
+  volumeClaimTemplates:
+    - metadata:
+        name: www
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: nfs-dynamic-sc
+
+       

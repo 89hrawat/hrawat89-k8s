@@ -4,9 +4,6 @@ kind: Pod
 metadata:
   name: app-apparomorsecurity
   namespace: default
-  annotations:
-    ### apply the apparmor profile "k8e-apparmor-profile" to the container "app-apparomorsecurity"
-    container.apparmor.security.beta.kubernetes.io/app-aromorsecurity: localhost/k8s-apparmor-profile  
 spec:
   containers:
     - name: app-aromorsecurity

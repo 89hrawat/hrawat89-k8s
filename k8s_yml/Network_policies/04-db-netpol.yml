@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-network-policy
+  namespace: app1-ns
+spec:
+  podSelector:
+    matchLabels: ## it will select all pods with label app: db in namespace app1-ns then triffic allow pods who have label app: backend
+      app: app1
+      role: db
+  policyTypes:
+    - Ingress   ### to allow incoming traffic to the selected pods/namespace
+    - Egress    ### In Kubernetes, if policyTypes includes Egress but no egress rules are defined, all egress traffic is denied for the targeted pods
+  ingress:      ###This policy denies all ingress traffic to DB pods except TCP traffic from backend pods on port 3306 and deny all Egress.
+    - from:
+        - podSelector:
+            matchLabels:
+              app: app1
+              role: backend
+      ports:
+        - protocol: TCP   # name of the protocol (TCP, UDP, or SCTP) on which the traffic is allowed. 
+          port: 3306     # port number or name on the target pods that is allowed.

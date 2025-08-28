@@ -1,0 +1,44 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-network-policy
+  namespace: app1-ns
+spec:
+  podSelector:
+    matchLabels: ## it will select all pods with label app: backend in namespace app1 
+      app: app1
+      role: backend
+  policyTypes:
+    - Ingress   ### to allow incoming traffic to the selected pods/namespace
+    - Egress    ### In Kubernetes, if policyTypes includes Egress but no egress rules are defined, all egress traffic is denied for the targeted pods
+  ingress:      ###This policy denies all ingress traffic to backend pods except TCP traffic from nginx-server pods on port 80 and deny all Egress.
+    - from:
+        - podSelector:
+            matchLabels:
+              app: app1
+              role: web
+      ports:
+        - protocol: TCP   # name of the protocol (TCP, UDP, or SCTP) on which the traffic is allowed. 
+          port: 5678       # port number or name on the target pods that is allowed.
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: app1
+              role: db
+      ports:
+        - protocol: TCP
+          port: 3306
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              k8s-app: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
