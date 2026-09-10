@@ -79,7 +79,7 @@ Replace placeholders such as `<pod-name>`, `<namespace>`, `<node-name>`, and `<s
 | `kubectl get events -A --sort-by=. lastTimestamp` | Lists cluster-wide events sorted chronologically to find recent node/pod failures. |
 | `kubectl version` | Confirms client and server Kubernetes version compatibility, a common source of node issues. |
 
-_Source pages: 3–5_
+
 
 ## 2. Pod Troubleshooting
 
@@ -152,7 +152,7 @@ _Source pages: 3–5_
 | `kubectl get pod <pod-name> -o jsonpath='{.spec.initContainers[*].name}'` | Lists init containers that may be blocking the main container from starting. |
 | `kubectl logs <pod-name> -c <init-container-name>` | Retrieves logs from a specific init container to debug startup blocking. |
 
-_Source pages: 6–9_
+
 
 ## 3. Deployments, ReplicaSets & Rollouts
 
@@ -189,7 +189,7 @@ _Source pages: 6–9_
 | `kubectl get deployment <name> --show-labels` | Shows labels to confirm correct selector matching with services. |
 | `kubectl patch deployment <name> -p '{"spec":{"replicas":3}}'` | Patches a deployment field directly without editing the full manifest. |
 
-_Source pages: 10–11_
+
 
 ## 4. Services & Networking
 
@@ -248,7 +248,6 @@ _Source pages: 10–11_
 | `kubectl exec <pod-name> --curl -v --resolve <service-name>:80:<pod-ip> http://<service-name>` | Forces resolution to a specific pod IP to isolate DNS vs network-layer failures. |
 | `kubectl get pod -o jsonpath='{.items[*].spec.dnsPolicy}'` | Checks the DNS policy applied to pods, relevant to custom DNS troubleshooting. |
 
-_Source pages: 12–14_
 
 ## 5. Ingress Troubleshooting
 
@@ -276,7 +275,7 @@ _Source pages: 12–14_
 | `kubectl get cm -n ingress-nginx ingress-nginx-controller` | Reviews the ConfigMap controlling global nginx ingress controller behavior. |
 | `kubectl rollout restart deployment -n ingress-nginx ingress-nginx-controller` | Restarts the ingress controller to pick up new configuration or recover from a stuck state. |
 
-_Source pages: 15–16_
+
 
 ## 6. ConfigMaps & Secrets
 
@@ -303,7 +302,7 @@ _Source pages: 15–16_
 | `kubectl create secret generic <name> --from-literal=key=value --dry-run=client -o yaml` | Previews a generic secret manifest before applying for validation. |
 | `kubectl get serviceaccount default -o jsonpath='{.secrets}'` | Checks which secrets are auto-associated with a service account, relevant for image pull issues. |
 
-_Source pages: 17–18_
+
 
 ## 7. Storage: PV, PVC & StorageClass
 
@@ -341,7 +340,7 @@ _Source pages: 17–18_
 | `kubectl get pvc -l app=<label>` | Lists PVCs associated with a specific application label. |
 | `kubectl get csidrivers` | Lists registered CSI drivers in the cluster relevant to provisioning behavior. |
 
-_Source pages: 19–20_
+
 
 ## 8. RBAC & Security Troubleshooting
 
@@ -378,7 +377,7 @@ _Source pages: 19–20_
 | `kubectl get pod <pod-name> -o jsonpath='{.spec.imagePullSecrets}'` | Confirms image pull secrets are attached when private registry pulls fail with auth errors. |
 | `kubectl get secret -n <namespace> --field-selector type=kubernetes.io/ dockerconfigjson` | Lists docker registry credential secrets in a namespace. |
 
-_Source pages: 21–22_
+
 
 ## 9. Logging, Events & Audit
 
@@ -415,7 +414,7 @@ _Source pages: 21–22_
 | `kubectl get pod <pod-name> -o jsonpath='{.status.reason}'` | Extracts the short status reason code for a pod's current state. |
 | `kubectl get events --field-selector reason=SuccessfulCreate` | Filters confirmation events for successful object creation, useful for verifying controllers reacted correctly. |
 
-_Source pages: 23–24_
+
 
 ## 10. Resource Usage, Metrics & Performance
 
@@ -452,7 +451,7 @@ _Source pages: 23–24_
 | `kubectl get pod -A -o jsonpath='{range .items[*]}{.metadata.name}{" "} {.status.containerStatuses[0]. restartCount}{"\n"}{end}' | sort -k2 -n -r` | Generates a sorted list of all pods by restart count across the cluster. |
 | `kubectl get pods --field-selector=status.phase!=Running -A` | Lists all non-running pods cluster-wide to spot widespread resource-driven failures. |
 
-_Source pages: 25–26_
+
 
 ## 11. DNS Troubleshooting
 
@@ -479,7 +478,7 @@ _Source pages: 25–26_
 | `kubectl describe cm coredns-custom -n kube-system` | Reviews custom CoreDNS configuration overrides defined separately from the main Corefile. |
 | `kubectl exec -it <pod-name> --getent hosts <hostname>` | Tests name resolution using the system resolver library directly inside a container. |
 
-_Source pages: 27–28_
+
 
 ## 12. Control Plane & etcd Troubleshooting
 
@@ -510,7 +509,7 @@ _Source pages: 27–28_
 | `kubectl get apiservices` | Lists all APIService objects and their availability status. |
 | `kubectl describe apiservice <name>` | Shows why a specific aggregated API service is unavailable. |
 
-_Source pages: 29–30_
+
 
 ## 13. Helm Troubleshooting
 
@@ -537,7 +536,7 @@ _Source pages: 29–30_
 | `kubectl get secrets -l owner=helm` | Lists Helm release storage secrets directly for low-level release state inspection. |
 | `helm get all <release-name>` | Combines values, manifest, notes, and hooks output for a comprehensive release dump. |
 
-_Source pages: 31–32_
+
 
 ## 14. CrashLoopBackOff & Pod Lifecycle States
 
@@ -564,7 +563,7 @@ _Source pages: 31–32_
 | `kubectl get pod <pod-name> -o jsonpath='{.spec.containers[*].args}'` | Reviews container arguments that might be malformed and causing startup failure. |
 | `kubectl run debug-shell --rm -it --image=<same-image> --restart=Never --sh` | Runs the same image standalone with a shell entrypoint to debug startup logic interactively. |
 
-_Source pages: 33–34_
+
 
 ## 15. Kubectl Debug, Exec & Advanced Diagnostics
 
@@ -591,7 +590,7 @@ _Source pages: 33–34_
 | `kubectl get all -n <namespace>` | Lists all standard resource types in a namespace for a quick full overview. |
 | `kubectl get all -A -o wide | grep -i error` | Greps across all resources cluster-wide for any visible error indicators. |
 
-_Source pages: 35–36_
+
 
 ## 16. Cluster Upgrades & Maintenance
 
@@ -614,7 +613,7 @@ _Source pages: 35–36_
 | `kubectl describe pdb <name>` | Shows current vs desired healthy pod counts enforced by a PodDisruptionBudget. |
 | `kubectl get nodes -o jsonpath='{.items[*].status.nodeInfo.osImage}'` | Audits node OS versions before applying OS-level patches during maintenance. |
 
-_Source pages: 37–37_
+
 
 ## 17. Jobs & CronJobs
 
@@ -638,7 +637,7 @@ _Source pages: 37–37_
 | `kubectl patch cronjob <name> -p '{"spec":{"suspend":false}}'` | Resumes a previously suspended CronJob. |
 | `kubectl get events --field-selector involvedObject.kind=CronJob` | Filters events specific to CronJob scheduling issues. |
 
-_Source pages: 38–38_
+
 
 ## 18. Horizontal & Vertical Autoscaling
 
@@ -660,7 +659,7 @@ _Source pages: 38–38_
 | `kubectl get pods -n kube-system -l app=vpa-recommender` | Confirms the VPA recommender component is running when recommendations stop updating. |
 | `kubectl logs -n kube-system -l app=vpa-updater` | Reviews VPA updater logs when automatic pod resource updates aren't applying. |
 
-_Source pages: 39–39_
+
 
 ## 19. Network Policies & Connectivity Isolation
 
@@ -682,7 +681,7 @@ _Source pages: 39–39_
 | `cilium policy get` | Lists currently loaded Cilium network policies for direct verification. |
 | `kubectl get events --field-selector reason=NetworkNotReady` | Filters events indicating the underlying network plugin isn't ready on a node. |
 
-_Source pages: 40–40_
+
 
 ## 20. Miscellaneous & Advanced Cluster Diagnostics
 
@@ -710,13 +709,10 @@ _Source pages: 40–40_
 | `kubectl version --output=yaml` | Outputs detailed client/server version info in YAML for build metadata comparisons. |
 | `kubectl get pod <pod-name> -o jsonpath='{.metadata.annotations}'` | Reviews all annotations on a pod, which often carry operator or sidecar-injection metadata relevant to failures. |
 
-_Source pages: 41–42_
 
 ## Closing Notes
 
 Kubernetes troubleshooting is rarely about memorizing every command. Start by identifying the layer involved — node, pod, network, storage, or control plane — then use events and logs to determine the specific cause.
 
-## Credits
 
-DevOps Shack — practical DevOps, Cloud, Kubernetes, and AI/MLOps education.
 
